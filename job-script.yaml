@@ -1,0 +1,28 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mariadb-federation
+  namespace: tom-test
+spec:
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: mariadb-federation
+          image: mariadb:latest
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              echo "Federation complete"
+          env:
+            - name: MARIADB_ROOT_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb
+                  key: root-username
+            - name: MARIADB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mariadb
+                  key: root-password
+
