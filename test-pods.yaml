@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: karpenter-test
+  namespace: jw
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: karpenter-test
+  template:
+    metadata:
+      labels:
+        app: karpenter-test
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: karpenter.sh/registered
+                    operator: In
+                    values:
+                      - "true"
+      containers:
+      - name: busybox
+        image: busybox
+        command: ["sleep", "3600"]
+
