@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: mariadb-federation
-  namespace: tom-test
+  namespace: my-namespace
 spec:
   template:
     spec:
@@ -10,11 +10,12 @@ spec:
       containers:
         - name: mariadb-federation
           image: mariadb:latest
-          command: ["/bin/sh", "-c"]
+          command: ["/bin/bash", "-c"]
           args:
             - |
               echo "Federation complete"
-          env:
+              echo "More script commands here"
+          env: #settings for the script goes here
             - name: MARIADB_ROOT_USER
               valueFrom:
                 secretKeyRef:
